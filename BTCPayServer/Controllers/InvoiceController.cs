@@ -96,7 +96,7 @@ namespace BTCPayServer.Controllers
             if (notificationUri == null || (notificationUri.Scheme != "http" && notificationUri.Scheme != "https")) //TODO: Filer non routable addresses ?
                 notificationUri = null;
             EmailAddressAttribute emailValidator = new EmailAddressAttribute();
-            entity.ExpirationTime = entity.InvoiceTime.AddMinutes(storeBlob.InvoiceExpiration);
+            entity.ExpirationTime = invoice.ExpirationTime < DateTimeOffset.Now ? entity.InvoiceTime.AddMinutes(storeBlob.InvoiceExpiration) : invoice.ExpirationTime;
             entity.MonitoringExpiration = entity.ExpirationTime + TimeSpan.FromMinutes(storeBlob.MonitoringExpiration);
             entity.OrderId = invoice.OrderId;
             entity.ServerUrl = serverUrl;
